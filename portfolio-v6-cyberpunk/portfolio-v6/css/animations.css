@@ -1,0 +1,566 @@
+/* ============================================================
+   ANIMATIONS.CSS  —  v5
+   All keyframes, cursor, loader, utility animation states
+   ============================================================ */
+
+/* ── Keyframes ────────────────────────────────────────── */
+
+@keyframes blink {
+  0%,100% { opacity:1; } 50% { opacity:0; }
+}
+
+@keyframes scrollLine {
+  0%   { transform:scaleY(0); transform-origin:top; }
+  46%  { transform:scaleY(1); transform-origin:top; }
+  54%  { transform:scaleY(1); transform-origin:bottom; }
+  100% { transform:scaleY(0); transform-origin:bottom; }
+}
+
+@keyframes rotateBg {
+  to { transform:rotate(360deg); }
+}
+
+@keyframes floatTag {
+  0%,100% { transform:translateY(0); }
+  50%     { transform:translateY(-10px); }
+}
+
+@keyframes spinRing {
+  to { transform:rotate(360deg); }
+}
+
+@keyframes shimmerBar {
+  from { background-position:-200% center; }
+  to   { background-position: 200% center; }
+}
+
+@keyframes pulseGlow {
+  0%,100% { box-shadow:0 0 0 0 rgba(255,0,51,0.4); }
+  50%     { box-shadow:0 0 0 8px rgba(255,0,51,0); }
+}
+
+@keyframes navDot {
+  0%,100% { box-shadow:0 0 0 0 rgba(16,185,129,0.5); }
+  50%     { box-shadow:0 0 0 6px rgba(16,185,129,0); }
+}
+
+@keyframes neonFlicker {
+  0%,100%  { opacity:1; }
+  90%      { opacity:1; }
+  91%      { opacity:0.3; }
+  92%      { opacity:1; }
+  95%      { opacity:0.7; }
+  96%      { opacity:1; }
+}
+
+@keyframes gradientShift {
+  0%   { background-position:0% 50%; }
+  50%  { background-position:100% 50%; }
+  100% { background-position:0% 50%; }
+}
+
+/* ── Char-split reveal helper ─────────────────────────── */
+.char-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  line-height: 1.05;
+}
+.char {
+  display: inline-block;
+  opacity: 0;
+}
+
+/* Manifesto word mask */
+.word-mask {
+  display: block;
+  overflow: hidden;
+}
+.word-inner {
+  display: block;
+  opacity: 0;
+  transform: translateY(110%);
+}
+
+/* ── LOADER ───────────────────────────────────────────── */
+
+#loader {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+}
+
+#loader-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 72px;
+  letter-spacing: 8px;
+  background: linear-gradient(90deg, #FF0033, #CC0022, #0099FF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: neonFlicker 6s infinite;
+  overflow: hidden;
+}
+#loader-logo span {
+  display: inline-block;
+  opacity: 0;
+}
+
+.loader-ring {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-top-color: #FF0033;
+  border-right-color: rgba(255,0,51,0.3);
+  animation: spinRing 0.9s linear infinite;
+}
+
+.loader-bar-track {
+  width: 220px;
+  height: 2px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 1px;
+  overflow: hidden;
+}
+.loader-bar-fill {
+  height: 100%;
+  width: 0;
+  border-radius: 1px;
+  background: linear-gradient(90deg, #FF0033, #CC0022, #0099FF);
+  background-size: 200% auto;
+  animation: shimmerBar 1.5s linear infinite;
+}
+
+.loader-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 220px;
+}
+#loader-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #555;
+}
+#loader-pct {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: #FF0033;
+}
+
+/* ── CURSOR ───────────────────────────────────────────── */
+
+#cursor-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9990;
+}
+
+#cursor-dot {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: #FF0033;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  top: 0; left: 0;
+  will-change: transform;
+  transition: background 0.2s;
+}
+
+#cursor-ring {
+  position: fixed;
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid rgba(255,0,51,0.45);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  top: 0; left: 0;
+  will-change: transform;
+  transition:
+    transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94),
+    border-color 0.2s,
+    background 0.2s,
+    width 0.3s, height 0.3s;
+}
+#cursor-ring.hover {
+  width: 60px;
+  height: 60px;
+  border-color: rgba(255,0,51,0.85);
+  background: rgba(255,0,51,0.04);
+}
+#cursor-ring.click {
+  transform: translate(-50%,-50%) scale(0.8) !important;
+}
+
+/* ── SCROLL PROGRESS ─────────────────────────────────── */
+
+#scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #FF0033, #CC0022, #0099FF);
+  z-index: 10000;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+/* ── SCROLL INDICATOR ────────────────────────────────── */
+
+#scroll-indicator {
+  position: absolute;
+  bottom: 44px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  z-index: 2;
+  opacity: 0;
+}
+#scroll-indicator span {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #555;
+  font-family: 'JetBrains Mono', monospace;
+}
+.scroll-line {
+  width: 1px;
+  height: 54px;
+  background: linear-gradient(to bottom, #FF0033, transparent);
+  animation: scrollLine 2s ease-in-out infinite;
+}
+
+/* ── NAV TRANSITIONS ─────────────────────────────────── */
+
+#navbar {
+  transition:
+    padding 0.3s ease,
+    background 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+#navbar.scrolled {
+  padding-top: 14px !important;
+  padding-bottom: 14px !important;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+  background: rgba(0,0,0,0.96) !important;
+}
+#navbar.nav-hidden {
+  transform: translateY(-100%);
+}
+
+.nav-links a.active { color: #FF0033 !important; }
+.nav-links a.active::after { width: 100% !important; }
+
+/* Hamburger open state */
+.nav-hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+
+/* ── SKILL RING FILL ─────────────────────────────────── */
+
+.ring-fill {
+  stroke-dasharray: 515;
+  stroke-dashoffset: 515;
+  transform-origin: center;
+  transform: rotate(-90deg);
+}
+.skill-orb { opacity: 0; }
+
+/* ── TIMELINE DOTS ───────────────────────────────────── */
+
+.tl-dot { transform: scale(0); }
+
+/* ── TL-CARD underline grow ──────────────────────────── */
+
+.tl-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #FF0033, #CC0022);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+.tl-card:hover::after { transform: scaleX(1); }
+
+/* ── PROJECT CARD GLOW TRACKING ──────────────────────── */
+
+.project-card:hover .project-glow {
+  background: rgba(255,0,51,0.15);
+  transform: scale(1.7);
+}
+
+/* ── FORM FOCUS GLOW ─────────────────────────────────── */
+
+.form-group input:focus,
+.form-group textarea:focus {
+  box-shadow: 0 0 0 2px rgba(255,0,51,0.18), 0 0 20px rgba(255,0,51,0.06);
+}
+
+/* ── STATUS MESSAGES ─────────────────────────────────── */
+
+.status-success {
+  background: rgba(16,185,129,0.08);
+  border: 1px solid rgba(16,185,129,0.3);
+  color: #10b981;
+  padding: 14px 20px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-top: 16px;
+}
+.status-error {
+  background: rgba(239,68,68,0.08);
+  border: 1px solid rgba(239,68,68,0.3);
+  color: #f87171;
+  padding: 14px 20px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-top: 16px;
+}
+
+/* ── BTN SPIN ────────────────────────────────────────── */
+
+.btn-primary.loading::after {
+  content: '';
+  display: inline-block;
+  width: 10px; height: 10px;
+  margin-left: 10px;
+  border: 2px solid rgba(0,0,0,0.25);
+  border-top-color: #000;
+  border-radius: 50%;
+  animation: spinRing 0.7s linear infinite;
+  vertical-align: middle;
+}
+
+/* ── About card spin ─────────────────────────────────── */
+
+.about-card::before { animation: rotateBg 9s linear infinite; }
+
+/* ── Nav available dot pulse ─────────────────────────── */
+
+.nav-dot { animation: navDot 2s ease-in-out infinite; }
+
+/* ── Hero badge dot ──────────────────────────────────── */
+
+.hero-badge-dot { animation: pulseGlow 2s infinite; }
+
+/* ── Code terminal ───────────────────────────────────── */
+
+.code-terminal {
+  font-family: 'JetBrains Mono', monospace;
+  background: rgba(0,0,0,0.55);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.term-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  background: rgba(255,255,255,0.025);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.term-dot { width:12px; height:12px; border-radius:50%; }
+.term-dot.r { background:#ff5f56; }
+.term-dot.y { background:#ffbd2e; }
+.term-dot.g { background:#27c93f; }
+.term-title { font-size:11px; color:#555; margin:0 auto; letter-spacing:1px; }
+.term-body { padding:20px 24px; font-size:12.5px; line-height:2.1; }
+.term-line { display:block; opacity:0; }
+.tp { color:#10b981; }
+.tc { color:#e2e8f0; }
+.to { color:#FF0033; padding-left:20px; display:block; }
+.tm { color:#555;    padding-left:20px; display:block; }
+
+
+/* ============================================================
+   CYBERPUNK ANIMATION UPGRADES  —  v6
+   ============================================================ */
+
+/* ── Loader: Red shimmer bar ─────────────────────────────── */
+.loader-bar-fill {
+  background: linear-gradient(90deg, #FF0033, #CC0022 50%, #0099FF) !important;
+  background-size: 200% auto !important;
+  box-shadow: 0 0 14px rgba(255,0,51,0.5);
+}
+
+/* ── Scroll progress: Red-blue ───────────────────────────── */
+#scroll-progress {
+  background: linear-gradient(90deg, #FF0033, #CC0022, #0099FF) !important;
+}
+
+/* ── Cursor ring: Red ────────────────────────────────────── */
+#cursor-ring {
+  border-color: rgba(255,0,51,0.45) !important;
+}
+#cursor-ring.hover {
+  border-color: rgba(255,0,51,0.85) !important;
+}
+
+/* ── pulseGlow: Red ──────────────────────────────────────── */
+@keyframes pulseGlow {
+  0%,100% { box-shadow: 0 0 0 0 rgba(255,0,51,0.45); }
+  50%     { box-shadow: 0 0 0 9px rgba(255,0,51,0); }
+}
+
+/* ── navDot: stays green ─────────────────────────────────── */
+@keyframes navDot {
+  0%,100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.5); }
+  50%     { box-shadow: 0 0 0 6px rgba(16,185,129,0); }
+}
+
+/* ── Neon shimmer text ───────────────────────────────────── */
+/* Applied to gradient-text elements for a shifting glow */
+@keyframes gradientShimmer {
+  0%   { background-position:  0% 50%; }
+  50%  { background-position:100% 50%; }
+  100% { background-position:  0% 50%; }
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #FF0033, #CC0022, #0099FF, #FF0033);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShimmer 5s linear infinite;
+}
+
+/* ── Stat number shimmer ─────────────────────────────────── */
+.stat-num,
+.metric-num,
+.p-stat-num {
+  background: linear-gradient(90deg, #FF0033, #CC0022, #0099FF, #FF0033);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShimmer 6s linear infinite;
+}
+
+/* ── Skill pct shimmer ───────────────────────────────────── */
+.skill-pct {
+  background: linear-gradient(90deg, #FF0033, #CC0022, #0099FF, #FF0033);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShimmer 5s linear infinite;
+}
+
+/* ── Cyber flicker ───────────────────────────────────────── */
+/* Used on the about-initials DS letters */
+@keyframes cyberFlicker {
+  0%,100%  { opacity:1; }
+  88%      { opacity:1; }
+  89%      { opacity:0.2; filter:blur(2px); }
+  90%      { opacity:1;   filter:none; }
+  93%      { opacity:0.7; }
+  94%      { opacity:1; }
+}
+.about-initials {
+  animation: cyberFlicker 9s ease-in-out infinite !important;
+}
+
+/* ── Data pulse on skill orb hover ──────────────────────── */
+@keyframes dataPulse {
+  0%,100% { filter:none; }
+  50%     { filter: drop-shadow(0 0 12px rgba(255,0,51,0.8)) drop-shadow(0 0 30px rgba(0,153,255,0.4)); }
+}
+.skill-orb:hover svg {
+  animation: dataPulse 1.2s ease-in-out infinite;
+}
+
+/* ── TL card border flash ────────────────────────────────── */
+.tl-card::after {
+  background: linear-gradient(90deg, #FF0033, #CC0022, #0099FF) !important;
+}
+
+/* ── Exp card: red glow on hover ─────────────────────────── */
+.tl-card:hover {
+  box-shadow:
+    0 0 30px rgba(255,0,51,0.1),
+    0 0 60px rgba(0,153,255,0.06),
+    inset 0 0 20px rgba(255,0,51,0.03) !important;
+}
+
+/* ── Manifesto word underline scan ───────────────────────── */
+.manifesto-word .word-inner {
+  position: relative;
+}
+.manifesto-word .word-inner::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #FF0033, #0099FF);
+  transition: width 1.2s cubic-bezier(0.16,1,0.3,1);
+}
+.manifesto-word .word-inner.animated::after {
+  width: 100%;
+}
+
+/* ── Project card top accent ─────────────────────────────── */
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,0,51,0.5), rgba(0,153,255,0.5), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 3;
+}
+.project-card:hover::before {
+  opacity: 1;
+}
+
+/* ── Loader logo flicker ─────────────────────────────────── */
+@keyframes neonFlicker {
+  0%,100%  { opacity:1; filter:none; }
+  90%      { opacity:1; }
+  91%      { opacity:0.3; filter:blur(1px); }
+  92%      { opacity:1;   filter:none; }
+  95%      { opacity:0.7; }
+  96%      { opacity:1; }
+}
+
+/* ── Hero eyebrow glow ───────────────────────────────────── */
+.hero-eyebrow {
+  box-shadow: 0 0 20px rgba(255,0,51,0.1), inset 0 0 20px rgba(255,0,51,0.03);
+}
+
+/* ── Nav available green pulse ───────────────────────────── */
+.nav-dot {
+  box-shadow: 0 0 8px rgba(16,185,129,0.7) !important;
+}
+
+/* ── Button hover: red pulse ─────────────────────────────── */
+@keyframes btnPulse {
+  0%,100% { box-shadow: var(--glow-red), 0 20px 50px rgba(255,0,51,0.25); }
+  50%     { box-shadow: 0 0 30px rgba(255,0,51,0.7), 0 0 90px rgba(255,0,51,0.2); }
+}
+.btn-primary:hover {
+  animation: btnPulse 2s ease-in-out infinite;
+}

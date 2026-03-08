@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Deepak Sharma — AI & Data Science Engineer. Machine Learning, Apache Spark, Databricks.">
+<title>Deepak Sharma — AI & Data Science Engineer</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/animations.css">
+
+<!-- Inline critical: loader paints instantly before fonts load -->
+<style>
+#loader {
+  position:fixed; inset:0; background:#000;
+  z-index:99999; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:28px;
+}
+#loader-logo {
+  font-size:72px; letter-spacing:8px; font-weight:900;
+  background:linear-gradient(90deg,#FF3CAC,#784BA0,#2B86C5);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  font-family:'Bebas Neue',sans-serif;
+  overflow:hidden;
+}
+#loader-logo span { display:inline-block; opacity:0; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════
+     LOADER
+     ═══════════════════════════════════════════════════ -->
+<div id="loader">
+  <div id="loader-logo">
+    <span>D</span><span>E</span><span>E</span><span>P</span><span>A</span><span>K</span>
+  </div>
+  <div class="loader-ring"></div>
+  <div class="loader-bar-track">
+    <div class="loader-bar-fill" id="loader-bar"></div>
+  </div>
+  <div class="loader-meta">
+    <span id="loader-text">Initializing neural networks…</span>
+    <span id="loader-pct">0%</span>
+  </div>
+</div>
+
+<!-- Cursor elements -->
+<canvas id="cursor-canvas"></canvas>
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<!-- Scroll progress -->
+<div id="scroll-progress"></div>
+
+<!-- Background grid (drawn by JS) -->
+<canvas id="bg-grid" style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
+
+<!-- ═══════════════════════════════════════════════════
+     SMOOTH SCROLL WRAPPER
+     Everything inside slides as one panel
+     ═══════════════════════════════════════════════════ -->
+<div id="smooth-wrapper">
+
+<!-- ── NAV ─────────────────────────────────────────── -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">DS</a>
+
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+
+  <div class="nav-right">
+    <div class="nav-available">
+      <span class="nav-dot"></span>
+      Available for Roles
+    </div>
+    <div class="nav-hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════
+     HERO — full screen, WebGL neural net + 2D particles
+     ═══════════════════════════════════════════════════ -->
+<section id="hero">
+  <canvas id="three-canvas"></canvas>
+  <canvas id="particles-canvas"></canvas>
+
+  <div class="hero-content">
+    <!-- Eyebrow tag -->
+    <div class="hero-eyebrow">
+      <span class="hero-badge-dot"></span>
+      AI &amp; Data Science Engineer
+    </div>
+
+    <!-- Name — chars are split by JS for stagger animation -->
+    <h1 class="hero-title" aria-label="Deepak Sharma">
+      <span class="line line-first">Deepak</span>
+      <span class="line line-last gradient-line">Sharma</span>
+    </h1>
+
+    <!-- Role typewriter -->
+    <div class="hero-role">
+      <span id="typing-text">Data Science Engineer</span><span class="typing-cursor"></span>
+    </div>
+
+    <!-- CTAs -->
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary magnetic">View Projects →</a>
+      <a href="#contact"  class="btn-outline  magnetic">Let's Talk</a>
+    </div>
+  </div>
+
+  <!-- Metrics at bottom of hero -->
+  <div class="metrics-strip">
+    <div class="metric">
+      <div class="metric-num" data-target="5">0</div>
+      <div class="metric-label">ML Projects</div>
+    </div>
+    <div class="metric">
+      <div class="metric-num" data-target="2">0</div>
+      <div class="metric-label">Internships</div>
+    </div>
+    <div class="metric">
+      <div class="metric-num" data-target="12">0</div>
+      <div class="metric-label">Technologies</div>
+    </div>
+    <div class="metric">
+      <div class="metric-num" data-target="95">0</div>
+      <div class="metric-label">Model Accuracy %</div>
+    </div>
+  </div>
+
+  <div id="scroll-indicator">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     MANIFESTO — oversized statement, word-by-word reveal
+     Inspired directly by animejs.com's opening statement
+     ═══════════════════════════════════════════════════ -->
+<section id="manifesto">
+  <div class="section-num-bg">00</div>
+  <div class="manifesto-inner">
+    <div class="manifesto-word pink">
+      <div class="word-mask"><div class="word-inner">I BUILD</div></div>
+    </div>
+    <div class="manifesto-word purple">
+      <div class="word-mask"><div class="word-inner">AI SYSTEMS</div></div>
+    </div>
+    <div class="manifesto-word blue">
+      <div class="word-mask"><div class="word-inner">THAT SCALE.</div></div>
+    </div>
+    <p class="manifesto-sub fade-up">
+      Spark ML · MLflow · Databricks · Python · Data Engineering
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     ABOUT
+     ═══════════════════════════════════════════════════ -->
+<section id="about">
+  <div class="section-num-bg">01</div>
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-label">About Me</span>
+      <h2 class="section-title">Who I Am</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="about-grid">
+      <!-- Text -->
+      <div>
+        <div class="about-text fade-up">
+          <p>I'm a <span class="hl">B.Tech IT student at Rajasthan Technical University</span>, 2nd year, with production experience building ML pipelines and BI solutions at scale.</p>
+          <p>Interned at <span class="hl-pink">Xebia</span> (Data Science, Jaipur) — built end-to-end ML pipelines on Databricks, trained distributed models with Spark ML, tracked experiments with MLflow, and promoted models to production.</p>
+          <p>Passionate about scalable data systems, reproducible AI, and dashboards that actually drive business decisions.</p>
+        </div>
+
+        <div class="about-info">
+          <div class="info-item">
+            <div class="info-label">Location</div>
+            <div class="info-value">Rajasthan, India</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">University</div>
+            <div class="info-value">RTU — 2nd Year</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Email</div>
+            <div class="info-value" style="font-size:11px">deepakpvinodsharma@gmail.com</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Phone</div>
+            <div class="info-value">7024122419</div>
+          </div>
+        </div>
+
+        <!-- Animated code terminal -->
+        <div class="code-terminal fade-up" style="margin-top:40px">
+          <div class="term-header">
+            <span class="term-dot r"></span>
+            <span class="term-dot y"></span>
+            <span class="term-dot g"></span>
+            <span class="term-title">deepak@spark-cluster ~ zsh</span>
+          </div>
+          <div class="term-body">
+            <span class="term-line" data-text="$ python train.py --experiment credit-risk --folds 5"><span class="tp">$</span> <span class="tc">python train.py --experiment credit-risk --folds 5</span></span>
+            <span class="term-line to" data-text="  [MLflow] Run ID: 8f2a1c — Experiment registered">  [MLflow] Run ID: 8f2a1c — Experiment registered</span>
+            <span class="term-line to" data-text="  [Spark]  Distributed training — 50K rows, 3 workers">  [Spark]  Distributed training — 50K rows, 3 workers</span>
+            <span class="term-line to" data-text="  [Model]  AUC: 0.941  F1: 0.887  Accuracy: 94.2%">  [Model]  AUC: 0.941  F1: 0.887  Accuracy: 94.2%</span>
+            <span class="term-line tm" data-text="  # Staging → Production promotion">  # Staging → Production promotion</span>
+            <span class="term-line" data-text="$ mlflow models serve -m 'models:/credit-risk/Production'"><span class="tp">$</span> <span class="tc">mlflow models serve -m 'models:/credit-risk/Production'</span></span>
+            <span class="term-line to" data-text="  ✓ REST API live at http://0.0.0.0:5001 (40ms latency)">  ✓ REST API live at http://0.0.0.0:5001 (40ms latency)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visual -->
+      <div class="about-visual">
+        <div class="about-card">
+          <div class="about-initials">DS</div>
+        </div>
+        <div class="floating-tags">
+          <div class="tag-float" style="top:-28px;left:14px;animation-delay:0s">⚡ Spark ML</div>
+          <div class="tag-float" style="top:72px;right:-18px;animation-delay:1.1s">🧠 MLflow</div>
+          <div class="tag-float" style="bottom:90px;left:-28px;animation-delay:2s">📊 Power BI</div>
+          <div class="tag-float" style="bottom:16px;right:4px;animation-delay:0.6s">🐍 Python</div>
+          <div class="tag-float" style="top:155px;left:-48px;animation-delay:1.5s">☁️ Databricks</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     SKILLS — circular SVG rings
+     ═══════════════════════════════════════════════════ -->
+<section id="skills">
+  <div class="section-num-bg">02</div>
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-label">Technical Skills</span>
+      <h2 class="section-title">My Arsenal</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <!-- SVG gradient definition (shared by all rings) -->
+    <svg width="0" height="0" style="position:absolute">
+      <defs>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%"   stop-color="#FF3CAC"/>
+          <stop offset="50%"  stop-color="#784BA0"/>
+          <stop offset="100%" stop-color="#2B86C5"/>
+        </linearGradient>
+      </defs>
+    </svg>
+
+    <!-- Skill orbs grid -->
+    <div class="skills-orbs">
+
+      <div class="skill-orb" data-skill="92">
+        <div class="skill-orb-wrap">
+          <svg viewBox="0 0 200 200">
+            <circle class="ring-track" cx="100" cy="100" r="82"/>
+            <circle class="ring-fill"  cx="100" cy="100" r="82"/>
+          </svg>
+          <div class="skill-center">
+            <span class="skill-pct">0</span>
+            <span class="skill-pct-sign">%</span>
+          </div>
+        </div>
+        <div class="skill-orb-name">Python</div>
+      </div>
+
+      <div class="skill-orb" data-skill="88">
+        <div class="skill-orb-wrap">
+          <svg viewBox="0 0 200 200">
+            <circle class="ring-track" cx="100" cy="100" r="82"/>
+            <circle class="ring-fill"  cx="100" cy="100" r="82"/>
+          </svg>
+          <div class="skill-center">
+            <span class="skill-pct">0</span>
+            <span class="skill-pct-sign">%</span>
+          </div>
+        </div>
+        <div class="skill-orb-name">Machine Learning</div>
+      </div>
+
+      <div class="skill-orb" data-skill="85">
+        <div class="skill-orb-wrap">
+          <svg viewBox="0 0 200 200">
+            <circle class="ring-track" cx="100" cy="100" r="82"/>
+            <circle class="ring-fill"  cx="100" cy="100" r="82"/>
+          </svg>
+          <div class="skill-center">
+            <span class="skill-pct">0</span>
+            <span class="skill-pct-sign">%</span>
+          </div>
+        </div>
+        <div class="skill-orb-name">Apache Spark</div>
+      </div>
+
+      <div class="skill-orb" data-skill="82">
+        <div class="skill-orb-wrap">
+          <svg viewBox="0 0 200 200">
+            <circle class="ring-track" cx="100" cy="100" r="82"/>
+            <circle class="ring-fill"  cx="100" cy="100" r="82"/>
+          </svg>
+          <div class="skill-center">
+            <span class="skill-pct">0</span>
+            <span class="skill-pct-sign">%</span>
+          </div>
+        </div>
+        <div class="skill-orb-name">SQL / Data Eng.</div>
+      </div>
+
+      <div class="skill-orb" data-skill="80">
+        <div class="skill-orb-wrap">
+          <svg viewBox="0 0 200 200">
+            <circle class="ring-track" cx="100" cy="100" r="82"/>
+            <circle class="ring-fill"  cx="100" cy="100" r="82"/>
+          </svg>
+          <div class="skill-center">
+            <span class="skill-pct">0</span>
+            <span class="skill-pct-sign">%</span>
+          </div>
+        </div>
+        <div class="skill-orb-name">Power BI</div>
+      </div>
+
+      <div class="skill-orb" data-skill="78">
+        <div class="skill-orb-wrap">
+          <svg viewBox="0 0 200 200">
+            <circle class="ring-track" cx="100" cy="100" r="82"/>
+            <circle class="ring-fill"  cx="100" cy="100" r="82"/>
+          </svg>
+          <div class="skill-center">
+            <span class="skill-pct">0</span>
+            <span class="skill-pct-sign">%</span>
+          </div>
+        </div>
+        <div class="skill-orb-name">MLflow</div>
+      </div>
+
+      <div class="skill-orb" data-skill="75">
+        <div class="skill-orb-wrap">
+          <svg viewBox="0 0 200 200">
+            <circle class="ring-track" cx="100" cy="100" r="82"/>
+            <circle class="ring-fill"  cx="100" cy="100" r="82"/>
+          </svg>
+          <div class="skill-center">
+            <span class="skill-pct">0</span>
+            <span class="skill-pct-sign">%</span>
+          </div>
+        </div>
+        <div class="skill-orb-name">JavaScript</div>
+      </div>
+
+      <div class="skill-orb" data-skill="72">
+        <div class="skill-orb-wrap">
+          <svg viewBox="0 0 200 200">
+            <circle class="ring-track" cx="100" cy="100" r="82"/>
+            <circle class="ring-fill"  cx="100" cy="100" r="82"/>
+          </svg>
+          <div class="skill-center">
+            <span class="skill-pct">0</span>
+            <span class="skill-pct-sign">%</span>
+          </div>
+        </div>
+        <div class="skill-orb-name">Databricks</div>
+      </div>
+
+    </div><!-- /skills-orbs -->
+
+    <!-- Secondary chips -->
+    <div class="skills-chips-section">
+      <div class="chips-label">Libraries &amp; Tools</div>
+      <div class="skill-chips">
+        <span class="skill-chip">Pandas</span>
+        <span class="skill-chip">NumPy</span>
+        <span class="skill-chip">Scikit-learn</span>
+        <span class="skill-chip">XGBoost</span>
+        <span class="skill-chip">Random Forest</span>
+        <span class="skill-chip">VectorAssembler</span>
+        <span class="skill-chip">StringIndexer</span>
+        <span class="skill-chip">CrossValidator</span>
+        <span class="skill-chip">Feature Engineering</span>
+        <span class="skill-chip">SMOTE</span>
+        <span class="skill-chip">Time-Series</span>
+        <span class="skill-chip">Docker</span>
+        <span class="skill-chip">Git</span>
+        <span class="skill-chip">Linux</span>
+        <span class="skill-chip">REST APIs</span>
+        <span class="skill-chip">Jupyter</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     PROJECTS — horizontal scroll showcase
+     The section is 480vh tall; cards translate on X
+     ═══════════════════════════════════════════════════ -->
+<section id="projects">
+  <div class="projects-sticky">
+    <div class="section-num-bg" style="top:48px;right:80px">03</div>
+
+    <div class="projects-header">
+      <div class="section-header">
+        <span class="section-label">Work</span>
+        <h2 class="section-title">ML Systems Built</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="projects-scroll-hint">
+        <span></span> Scroll to explore
+      </div>
+    </div>
+
+    <div class="projects-filter">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="ml">ML</button>
+      <button class="filter-btn" data-filter="spark">Spark</button>
+      <button class="filter-btn" data-filter="deployment">Deployment</button>
+      <button class="filter-btn" data-filter="hackathon">Hackathon</button>
+    </div>
+
+    <div class="projects-track" id="projects-track">
+
+      <!-- ── Credit Risk ── -->
+      <div class="project-card tilt-card" data-category="ml">
+        <div class="card-shine"></div>
+        <div class="project-glow"></div>
+        <div class="project-header">
+          <div class="project-icon">🎯</div>
+          <div class="project-title">Credit Risk Prediction</div>
+          <div class="project-desc">End-to-end binary classification predicting loan default probability. Gradient boosting with SHAP explainability, tracked via MLflow.</div>
+        </div>
+        <div class="project-stats">
+          <div class="p-stat"><div class="p-stat-num" data-target="94">0</div><div class="p-stat-label">AUC Score</div></div>
+          <div class="p-stat"><div class="p-stat-num" data-target="50">0</div><div class="p-stat-label">K+ Records</div></div>
+          <div class="p-stat"><div class="p-stat-num" data-target="12">0</div><div class="p-stat-label">Features</div></div>
+        </div>
+        <div class="project-footer">
+          <span class="p-tag">Python</span>
+          <span class="p-tag">Scikit-learn</span>
+          <span class="p-tag">MLflow</span>
+        </div>
+      </div>
+
+      <!-- ── Churn Prediction ── -->
+      <div class="project-card tilt-card" data-category="ml">
+        <div class="card-shine"></div>
+        <div class="project-glow"></div>
+        <div class="project-header">
+          <div class="project-icon">📉</div>
+          <div class="project-title">Customer Churn Prediction</div>
+          <div class="project-desc">Telecom churn model — Random Forest + SMOTE class balancing, MLflow registry, production REST serving.</div>
+        </div>
+        <div class="project-stats">
+          <div class="p-stat"><div class="p-stat-num" data-target="91">0</div><div class="p-stat-label">Accuracy %</div></div>
+          <div class="p-stat"><div class="p-stat-num" data-target="7">0</div><div class="p-stat-label">Models Tested</div></div>
+          <div class="p-stat"><div class="p-stat-num" data-target="18">0</div><div class="p-stat-label">Features</div></div>
+        </div>
+        <div class="project-footer">
+          <span class="p-tag">Random Forest</span>
+          <span class="p-tag">SMOTE</span>
+          <span class="p-tag">MLflow</span>
+        </div>
+      </div>
+
+      <!-- ── Sales Forecasting ── -->
+      <div class="project-card tilt-card" data-category="ml">
+        <div class="card-shine"></div>
+        <div class="project-glow"></div>
+        <div class="project-header">
+          <div class="project-icon">📈</div>
+          <div class="project-title">Sales Forecasting</div>
+          <div class="project-desc">Time-series regression for retail: XGBoost + seasonal decomposition + economic indicators — 24-month forward predictions.</div>
+        </div>
+        <div class="project-stats">
+          <div class="p-stat"><div class="p-stat-num" data-target="96">0</div><div class="p-stat-label">R² Score</div></div>
+          <div class="p-stat"><div class="p-stat-num" data-target="24">0</div><div class="p-stat-label">Months Ahead</div></div>
+          <div class="p-stat"><div class="p-stat-num" data-target="5">0</div><div class="p-stat-label">Models</div></div>
+        </div>
+        <div class="project-footer">
+          <span class="p-tag">XGBoost</span>
+          <span class="p-tag">Time-Series</span>
+          <span class="p-tag">NumPy</span>
+        </div>
+      </div>
+
+      <!-- ── Spark Pipeline ── -->
+      <div class="project-card tilt-card" data-category="spark ml">
+        <div class="card-shine"></div>
+        <div class="project-glow"></div>
+        <div class="project-header">
+          <div class="project-icon">⚡</div>
+          <div class="project-title">Spark ML Pipeline</div>
+          <div class="project-desc">Automated distributed ML pipeline: VectorAssembler + StringIndexer + CrossValidator. 10 GB+ datasets, 3-node Databricks cluster.</div>
+        </div>
+        <div class="project-stats">
+          <div class="p-stat"><div class="p-stat-num" data-target="10">0</div><div class="p-stat-label">GB+ Data</div></div>
+          <div class="p-stat"><div class="p-stat-num" data-target="8">0</div><div class="p-stat-label">Pipeline Stages</div></div>
+          <div class="p-stat"><div class="p-stat-num" data-target="3">0</div><div class="p-stat-label">Workers</div></div>
+        </div>
+        <div class="project-footer">
+          <span class="p-tag">Spark ML</span>
+          <span class="p-tag">Databricks</span>
+          <span class="p-tag">CrossValidator</span>
+        </div>
+      </div>
+
+      <!-- ── End-to-end Deployment ── -->
+      <div class="project-card tilt-card" data-category="deployment spark">
+        <div class="card-shine"></div>
+        <div class="project-glow"></div>
+        <div class="project-header">
+          <div class="project-icon">🚀</div>
+          <div class="project-title">End-to-End ML Deployment</div>
+          <div class="project-desc">Full lifecycle: training → staging → production. MLflow registry, REST API, monitoring dashboards. 99% uptime, 40ms latency.</div>
+        </div>
+        <div class="project-stats">
+          <div class="p-stat"><div class="p-stat-num" data-target="5">0</div><div class="p-stat-label">Lifecycle Stages</div></div>
+          <div class="p-stat"><div class="p-stat-num" data-target="99">0</div><div class="p-stat-label">Uptime %</div></div>
+          <div class="p-stat"><div class="p-stat-num" data-target="40">0</div><div class="p-stat-label">ms Latency</div></div>
+        </div>
+        <div class="project-footer">
+          <span class="p-tag">MLflow</span>
+          <span class="p-tag">REST API</span>
+          <span class="p-tag">Docker</span>
+        </div>
+      </div>
+
+      <!-- ── Hackathon Website ── -->
+      <div class="project-card tilt-card" data-category="hackathon">
+        <div class="card-shine"></div>
+        <div class="project-glow"></div>
+        <div class="project-header">
+          <div class="project-icon">🏆</div>
+          <div class="project-title">Shankara Global Hackathon</div>
+          <div class="project-desc">Full responsive website built under hackathon conditions as Frontend Engineer. Complete UI design + interactive components + cross-device responsiveness.</div>
+          <div class="project-video" style="margin-top:12px">
+            <video controls preload="none">
+              <source src="videos/hackathon-demo.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+        <div class="project-stats">
+          <div class="p-stat"><div class="p-stat-num" style="font-size:13px;-webkit-text-fill-color:unset;color:#FF3CAC">FE</div><div class="p-stat-label">Role</div></div>
+          <div class="p-stat"><div class="p-stat-num" style="font-size:13px;-webkit-text-fill-color:unset;color:#FF3CAC">2026</div><div class="p-stat-label">Year</div></div>
+          <div class="p-stat"><div class="p-stat-num" style="font-size:13px;-webkit-text-fill-color:unset;color:#10b981">Live</div><div class="p-stat-label">Status</div></div>
+        </div>
+        <div class="project-footer">
+          <span class="p-tag">HTML</span>
+          <span class="p-tag">CSS</span>
+          <span class="p-tag">JavaScript</span>
+          <a href="https://skillect-resume.vercel.app/" target="_blank" rel="noopener" class="p-tag">Live ↗</a>
+        </div>
+      </div>
+
+    </div><!-- /projects-track -->
+  </div><!-- /projects-sticky -->
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     EXPERIENCE — animated timeline
+     ═══════════════════════════════════════════════════ -->
+<section id="experience">
+  <div class="section-num-bg">04</div>
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-label">Experience</span>
+      <h2 class="section-title">Where I've Worked</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="timeline-wrapper">
+      <div class="timeline-track">
+        <div class="tl-line"><div class="tl-line-fill"></div></div>
+
+        <!-- Xebia -->
+        <div class="timeline-item">
+          <div class="tl-dot"></div>
+          <div class="tl-card tilt-card">
+            <div class="card-shine"></div>
+            <div class="tl-company">Xebia</div>
+            <div class="tl-role">Data Science Intern</div>
+            <div class="tl-date">2024 · Jaipur, Rajasthan</div>
+            <ul class="tl-bullets">
+              <li>Built end-to-end ML pipelines for classification and regression tasks using Apache Spark on Databricks clusters.</li>
+              <li>Designed and trained models with advanced feature engineering, cross-validation, and hyperparameter tuning via Spark ML's CrossValidator.</li>
+              <li>Tracked experiments, compared metrics, and managed the full model lifecycle (Staging → Production) using MLflow.</li>
+              <li>Processed 10 GB+ structured datasets with PySpark DataFrames and VectorAssembler for distributed inference.</li>
+            </ul>
+            <div class="tl-tools">
+              <span class="tl-tool">Databricks</span>
+              <span class="tl-tool">Spark ML</span>
+              <span class="tl-tool">MLflow</span>
+              <span class="tl-tool">Python</span>
+              <span class="tl-tool">PySpark</span>
+              <span class="tl-tool">SQL</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hackathon -->
+        <div class="timeline-item">
+          <div class="tl-dot"></div>
+          <div class="tl-card tilt-card">
+            <div class="card-shine"></div>
+            <div class="tl-company">Shankara Global Hackathon</div>
+            <div class="tl-role">Frontend Engineer</div>
+            <div class="tl-date">2026 · Hackathon</div>
+            <ul class="tl-bullets">
+              <li>Designed and built a complete responsive website from scratch under hackathon constraints as sole Frontend Engineer.</li>
+              <li>Implemented interactive UI components ensuring smooth UX, cross-device responsiveness, and fast performance.</li>
+              <li>Delivered a production-ready web application with API integration under 48-hour time constraint.</li>
+            </ul>
+            <div class="tl-tools">
+              <span class="tl-tool">HTML</span>
+              <span class="tl-tool">CSS</span>
+              <span class="tl-tool">JavaScript</span>
+              <span class="tl-tool">Responsive Design</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /timeline-track -->
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     CONTACT
+     ═══════════════════════════════════════════════════ -->
+<section id="contact">
+  <div class="section-num-bg">05</div>
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-label">Contact</span>
+      <h2 class="section-title">Let's Build<br>Something.</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="contact-grid">
+      <!-- Info -->
+      <div>
+        <div class="contact-item">
+          <div class="contact-icon">📧</div>
+          <div>
+            <div class="contact-label">Email</div>
+            <div class="contact-value"><a href="mailto:deepakpvinodsharma@gmail.com">deepakpvinodsharma@gmail.com</a></div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📱</div>
+          <div>
+            <div class="contact-label">Phone</div>
+            <div class="contact-value">7024122419</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <div class="contact-label">Location</div>
+            <div class="contact-value">Rajasthan, India</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🐱</div>
+          <div>
+            <div class="contact-label">GitHub</div>
+            <div class="contact-value"><a href="https://github.com/Devrator" target="_blank" rel="noopener">github.com/Devrator</a></div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">💼</div>
+          <div>
+            <div class="contact-label">LinkedIn</div>
+            <div class="contact-value"><a href="https://www.linkedin.com/in/deepaksharma--" target="_blank" rel="noopener">linkedin.com/in/deepaksharma--</a></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="fade-up">
+        <form id="contact-form" novalidate>
+          <div class="form-group">
+            <label for="cf-name">Name</label>
+            <input type="text" id="cf-name" placeholder="John Doe">
+            <div class="form-error" id="err-name">Name is required.</div>
+          </div>
+          <div class="form-group">
+            <label for="cf-email">Email</label>
+            <input type="email" id="cf-email" placeholder="john@company.com">
+            <div class="form-error" id="err-email">Valid email required.</div>
+          </div>
+          <div class="form-group">
+            <label for="cf-subject">Subject</label>
+            <input type="text" id="cf-subject" placeholder="Internship / Collaboration / Role">
+            <div class="form-error" id="err-subject">Subject required.</div>
+          </div>
+          <div class="form-group">
+            <label for="cf-message">Message</label>
+            <textarea id="cf-message" placeholder="Tell me about the opportunity…"></textarea>
+            <div class="form-error" id="err-message">Message must be 10+ characters.</div>
+          </div>
+          <button type="submit" class="btn-primary magnetic" id="form-submit" style="width:100%;justify-content:center">
+            Send Message →
+          </button>
+          <div id="form-status"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ────────────────────────────────────────── -->
+<footer>
+  <div class="footer-left">© 2026 Deepak Sharma — Built with Three.js &amp; Anime.js</div>
+  <div class="footer-links">
+    <a href="https://github.com/Devrator" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://www.linkedin.com/in/deepaksharma--" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="mailto:deepakpvinodsharma@gmail.com">Email</a>
+  </div>
+</footer>
+
+</div><!-- /smooth-wrapper -->
+
+<!-- ── Scripts ───────────────────────────────────────── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
+<script src="js/cursor.js"></script>
+<script src="js/scroll.js"></script>
+<script src="js/three-scene.js"></script>
+<script src="js/animations.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>
